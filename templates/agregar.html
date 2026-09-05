@@ -1,0 +1,88 @@
+﻿{% extends 'base.html' %}
+{% block title %}Registrar equipo{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h3 class="mb-4"><i class="fas fa-edit"></i> Registrar equipo</h3>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Cliente *</label>
+                            <input type="text" name="cliente" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" name="telefono" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Equipo *</label>
+                            <input type="text" name="equipo" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Foto (opcional)</label>
+                            <input type="file" name="foto" class="form-control" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Pantalla</label>
+                            <select name="pantalla" class="form-select">
+                                <option value="Excelente">Excelente</option>
+                                <option value="Rayada">Rayada</option>
+                                <option value="Rota">Rota</option>
+                                <option value="No enciende">No enciende</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Cámara</label>
+                            <select name="camara" class="form-select">
+                                <option value="Funciona">Funciona</option>
+                                <option value="No funciona">No funciona</option>
+                                <option value="Rallada">Rallada</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Batería</label>
+                            <select name="bateria" class="form-select">
+                                <option value="Bien">Bien</option>
+                                <option value="Inflada">Inflada</option>
+                                <option value="No carga">No carga</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Chasis</label>
+                            <select name="chasis" class="form-select">
+                                <option value="Sin detalles">Sin detalles</option>
+                                <option value="Abollado">Abollado</option>
+                                <option value="Rayado">Rayado</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Accesorios incluidos</label>
+                        <input type="text" name="accesorios" class="form-control" placeholder="Ej: Cargador, SIM, tarjeta SD...">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Detalles extra</label>
+                        <textarea name="detalles_extra" class="form-control" rows="3" placeholder="Ej: Golpe en la esquina, humedad..."></textarea>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                        <a href="{{ url_for('inicio') }}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
