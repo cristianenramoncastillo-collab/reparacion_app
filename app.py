@@ -13,13 +13,11 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 def init_db():
     conn = sqlite3.connect('equipos.db')
     c = conn.cursor()
-    # Tabla usuarios
     c.execute('''CREATE TABLE IF NOT EXISTS usuarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         usuario TEXT UNIQUE NOT NULL,
         contraseña TEXT NOT NULL
     )''')
-    # Tabla equipos (con nuevas columnas)
     c.execute('''CREATE TABLE IF NOT EXISTS equipos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         fecha_hora TEXT,
@@ -34,7 +32,6 @@ def init_db():
         detalles_extra TEXT,
         foto TEXT
     )''')
-    # Agregar columnas faltantes si la tabla ya existía
     columns = ['camara', 'bateria', 'chasis', 'accesorios', 'foto']
     for col in columns:
         try:
@@ -42,7 +39,6 @@ def init_db():
             conn.commit()
         except sqlite3.OperationalError:
             pass
-    # Usuario admin por defecto
     c.execute('SELECT COUNT(*) FROM usuarios')
     if c.fetchone()[0] == 0:
         c.execute('INSERT INTO usuarios (usuario, contraseña) VALUES (?, ?)', ('admin', '1234'))
@@ -142,6 +138,17 @@ def ver_equipo(id):
     if not equipo:
         return redirect(url_for('inicio'))
     return render_template('ver_equipo.html', equipo=equipo)
+
+@app.route('/eliminar/<int:id>', methods=['POST'])
+@login_required
+def eliminar(id):
+    conn = sqlite3.connect('equipos.db')
+    c = conn.cursor()
+    c.execute('DELETE FROM equipos WHERE id=?', (id,))
+    conn.commit()
+    conn.close()
+    flash('Registro eliminado correctamente', 'success')
+    return redirect(url_for('inicio'))
 
 if __name__ == '__main__':
     init_db()
