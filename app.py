@@ -40,7 +40,6 @@ def init_db():
     conn.commit()
     conn.close()
 
-# ¡LLAMADA AQUÍ! Se ejecuta al importar el módulo (Gunicorn)
 init_db()
 
 def login_required(f):
