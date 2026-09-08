@@ -76,6 +76,22 @@
                         <label class="form-label">Detalles extra</label>
                         <textarea name="detalles_extra" class="form-control" rows="3" placeholder="Ej: Golpe en la esquina, humedad..."></textarea>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Estado de entrega</label>
+                            <select name="estado_entrega" class="form-select">
+                                <option value="">Selecciona...</option>
+                                <option value="Recibido">Recibido</option>
+                                <option value="En reparación">En reparación</option>
+                                <option value="Listo para entregar">Listo para entregar</option>
+                                <option value="Entregado">Entregado</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Notas para el cliente</label>
+                            <input type="text" name="notas_cliente" class="form-control" placeholder="Ej: Se reparó, listo para recoger">
+                        </div>
+                    </div>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
                         <a href="{{ url_for('inicio') }}" class="btn btn-secondary">Cancelar</a>
