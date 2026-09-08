@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprobante de Reparación</title>
+    <style>
+        body { font-family: 'Courier New', monospace; width: 80mm; margin: 0 auto; padding: 10px; color: #000; }
+        h2 { text-align: center; margin-bottom: 5px; }
+        .centro { text-align: center; }
+        .linea { border-top: 1px dashed #000; margin: 5px 0; }
+        .dato { margin-bottom: 3px; }
+        .dato strong { display: inline-block; min-width: 120px; }
+        .firma { margin-top: 30px; text-align: center; }
+        .firma::before { content: "_______________________"; display: block; margin-bottom: 5px; }
+        @media print { body { width: 80mm; margin: 0; } }
+    </style>
+</head>
+<body>
+    <div class="centro">
+        <h2>REPARACIONES</h2>
+        <p>Tel: 555-555-5555</p>
+        <p>Dirección: Tu dirección aquí</p>
+    </div>
+    <div class="linea"></div>
+    <div class="dato"><strong>Fecha:</strong> {{ equipo[1] }}</div>
+    <div class="dato"><strong>Cliente:</strong> {{ equipo[2] }}</div>
+    <div class="dato"><strong>Teléfono:</strong> {{ equipo[3] }}</div>
+    <div class="dato"><strong>Equipo:</strong> {{ equipo[4] }}</div>
+    <div class="linea"></div>
+    <p><strong>Estado de recepción:</strong></p>
+    <div class="dato">Pantalla: {{ equipo[5] }}</div>
+    <div class="dato">Cámara: {{ equipo[6] }}</div>
+    <div class="dato">Batería: {{ equipo[7] }}</div>
+    <div class="dato">Chasis: {{ equipo[8] }}</div>
+    <div class="dato">Accesorios: {{ equipo[9] }}</div>
+    <div class="dato">Detalles extra: {{ equipo[10] }}</div>
+    <div class="linea"></div>
+    <p><strong>Estado de entrega:</strong> {{ equipo[12] if equipo[12] else 'Pendiente' }}</p>
+    <p><strong>Notas para el cliente:</strong> {{ equipo[13] if equipo[13] else 'Sin notas' }}</p>
+    <div class="linea"></div>
+    <div class="firma">Firma del cliente</div>
+    <div style="text-align:center; margin-top:20px;">
+        <button onclick="window.print()" style="padding:10px 20px; font-size:16px;">🖨️ Imprimir</button>
+        <br><br>
+        <a href="{{ url_for('ver_equipo', id=equipo[0]) }}" style="color:#000; text-decoration:none;">Volver</a>
+    </div>
+</body>
+</html>

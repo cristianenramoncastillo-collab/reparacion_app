@@ -30,10 +30,11 @@ def init_db():
         chasis TEXT,
         accesorios TEXT,
         detalles_extra TEXT,
-        foto TEXT
+        foto TEXT,
+        estado_entrega TEXT,
+        notas_cliente TEXT
     )''')
-    columns = ['camara', 'bateria', 'chasis', 'accesorios', 'foto']
-    for col in columns:
+    for col in ['estado_entrega', 'notas_cliente']:
         try:
             c.execute(f'ALTER TABLE equipos ADD COLUMN {col} TEXT')
             conn.commit()
@@ -106,6 +107,8 @@ def agregar():
         chasis = request.form['chasis']
         accesorios = request.form['accesorios']
         detalles = request.form['detalles_extra']
+        estado_entrega = request.form.get('estado_entrega', '')
+        notas_cliente = request.form.get('notas_cliente', '')
         foto = request.files['foto']
         foto_filename = None
         if foto and foto.filename != '':
@@ -118,9 +121,9 @@ def agregar():
         conn = sqlite3.connect('equipos.db')
         c = conn.cursor()
         c.execute('''INSERT INTO equipos 
-                     (fecha_hora, cliente, telefono, equipo, pantalla, camara, bateria, chasis, accesorios, detalles_extra, foto)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-                  (fecha_hora, cliente, telefono, equipo, pantalla, camara, bateria, chasis, accesorios, detalles, foto_filename))
+                     (fecha_hora, cliente, telefono, equipo, pantalla, camara, bateria, chasis, accesorios, detalles_extra, foto, estado_entrega, notas_cliente)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                  (fecha_hora, cliente, telefono, equipo, pantalla, camara, bateria, chasis, accesorios, detalles, foto_filename, estado_entrega, notas_cliente))
         conn.commit()
         conn.close()
         flash('Equipo registrado correctamente', 'success')
@@ -138,6 +141,18 @@ def ver_equipo(id):
     if not equipo:
         return redirect(url_for('inicio'))
     return render_template('ver_equipo.html', equipo=equipo)
+
+@app.route('/imprimir/<int:id>')
+@login_required
+def imprimir(id):
+    conn = sqlite3.connect('equipos.db')
+    c = conn.cursor()
+    c.execute('SELECT * FROM equipos WHERE id=?', (id,))
+    equipo = c.fetchone()
+    conn.close()
+    if not equipo:
+        return redirect(url_for('inicio'))
+    return render_template('imprimir.html', equipo=equipo)
 
 @app.route('/eliminar/<int:id>', methods=['POST'])
 @login_required
