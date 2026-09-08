@@ -13,11 +13,13 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 def init_db():
     conn = sqlite3.connect('equipos.db')
     c = conn.cursor()
+    # Crear tabla usuarios
     c.execute('''CREATE TABLE IF NOT EXISTS usuarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         usuario TEXT UNIQUE NOT NULL,
         contraseña TEXT NOT NULL
     )''')
+    # Crear tabla equipos con TODAS las columnas desde el inicio
     c.execute('''CREATE TABLE IF NOT EXISTS equipos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         fecha_hora TEXT,
@@ -34,16 +36,11 @@ def init_db():
         estado_entrega TEXT,
         notas_cliente TEXT
     )''')
-    for col in ['estado_entrega', 'notas_cliente']:
-        try:
-            c.execute(f'ALTER TABLE equipos ADD COLUMN {col} TEXT')
-            conn.commit()
-        except sqlite3.OperationalError:
-            pass
+    # Agregar usuario admin por defecto
     c.execute('SELECT COUNT(*) FROM usuarios')
     if c.fetchone()[0] == 0:
         c.execute('INSERT INTO usuarios (usuario, contraseña) VALUES (?, ?)', ('admin', '1234'))
-        conn.commit()
+    conn.commit()
     conn.close()
 
 def login_required(f):
